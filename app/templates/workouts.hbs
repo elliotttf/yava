@@ -1,0 +1,11 @@
+<ul>
+  {{#each item in controller}}
+    <li>
+        <h4>{{item.title}}</h4>
+        <div class="date">{{item.date}}</div>
+        <div class="length">
+          {{item.user.name}} worked out for <span class="duration">{{item.workoutLength}}.</span>
+        </div>
+    </li>
+  {{/each}}
+</ul>
