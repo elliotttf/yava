@@ -1,4 +1,4 @@
-MyYoga.WorkoutsRoute = Ember.Route.extend({
+MyYoga.WorkoutsIndexRoute = Ember.Route.extend({
   model: function () {
     return this.store.find('workout');
   }

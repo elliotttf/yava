@@ -1,4 +1,4 @@
-MyYoga.WorkoutsRoute = Ember.Route.extend({
+MyYoga.WorkoutsNewRoute = Ember.Route.extend({
   model: function () {
     return {};
   }
