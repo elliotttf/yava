@@ -9,6 +9,13 @@ MyYoga.Workout = DS.Model.extend({
    */
   workoutLength: function () {
     return moment.duration(this.get('duration'), 'seconds').humanize();
-  }.property('duration')
+  }.property('duration'),
+
+  /**
+   * Returns a formatted time from the workout date.
+   */
+  formattedDate: function () {
+    return moment(this.get('date')).format('lll');
+  }.property('date')
 });
 

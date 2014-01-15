@@ -1,3 +1,7 @@
 <div id="new-workout">
-  <div id="">{{input placeholder="title"}}</div>
+  <div id="title">{{input placeholder="title" value=title}}</div>
+  <div id="date">{{input placeholder="date" class="datepicker" value=date}}</div>
+  <div id="start">{{input placeholder="start time" class="timepicker" value=startTime}}</div>
+  <div id="end">{{input placeholder="end time" class="timepicker" value=endTime}}</div>
+  <button id="save-workout" {{action "saveWorkout"}}>Save Workout</button>
 </div>
