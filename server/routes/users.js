@@ -15,7 +15,7 @@ exports.list = function (req, res) {
 };
 
 exports.get = function (req, res) {
-  if (req.params.user_id === 0) {
+  if (req.params.user_id == 0) {
     res.json({
       'user': {
         id: 0,
