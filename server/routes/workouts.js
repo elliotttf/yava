@@ -17,3 +17,11 @@ exports.list = function (req, res) {
   });
 };
 
+exports.save = function (req, res) {
+  var saved = req.body.workout;
+  saved.id = 1;
+  res.json({
+    workout: saved
+  });
+};
+

@@ -17,3 +17,4 @@ function ensureAuthenticated(req, res, next) {
 app.get('/users', ensureAuthenticated, users.list);
 app.get('/users/:user_id', ensureAuthenticated, users.get);
 app.get('/workouts', ensureAuthenticated, workouts.list);
+app.post('/workouts', ensureAuthenticated, workouts.save);
