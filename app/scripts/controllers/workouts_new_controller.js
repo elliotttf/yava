@@ -44,7 +44,7 @@ MyYoga.WorkoutsNewController = Ember.ObjectController.extend({
   endTime: function() {
     var date = this.get('date');
     if (date && this.get('duration')) {
-      var date = moment(date);
+      date = moment(date);
       date.add('s', this.get('duration'));
       return date.format('LT');
     }
@@ -157,7 +157,7 @@ MyYoga.WorkoutsNewController = Ember.ObjectController.extend({
           date: new Date(startDate.toISOString()),
           duration: (endDate.unix() - startDate.unix()),
           notes: this.get('notes'),
-          user: 0 // TODO
+          user: MyYoga.MyUser.get('user')
         });
 
         workout.save();

@@ -1,8 +1,18 @@
 MyYoga.Auth = Ember.Object.extend({
+  uid: null,
+  user: null,
+
+  loggedIn: function () {
+    if (this.user && this.user.get('id')) {
+      return true;
+    }
+    return false;
+  }.property('user'),
+
   init: function () {
     this._super();
 
-    //var uid = $.cookie('connect.uid')
+    this.set('uid', jQuery.cookie('uid'));
   }
 });
 

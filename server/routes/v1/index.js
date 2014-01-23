@@ -17,8 +17,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Auth.
-// TODO - store in DB
-// @see http://mherman.org/blog/2013/11/10/social-authentication-with-passport-dot-js/
 passport.serializeUser(function(user, done) {
   done(null, user);
 });
@@ -32,22 +30,39 @@ passport.use(new TwitterStrategy(
     callbackURL: config.twitter.callback
   },
   function (token, tokenSecret, profile, done) {
-    process.nextTick(function () {
-      return done(null, profile);
-    });
+    users.findOrCreate(profile.username)
+      .then(
+        function ok(user) {
+          done(null, user);
+        },
+        function error(err) {
+          done(err);
+        }
+      );
   }
 ));
 
 app.get('/auth/twitter', passport.authenticate('twitter'));
-app.get(
-  '/auth/twitter/callback',
-  passport.authenticate('twitter', { failureRedirect: '/login' }),
-  function(req, res) {
-    // Successful authentication, redirect home.
-    //res.cookie('uid', 
-    res.redirect('/');
-  }
-);
+app.get('/auth/twitter/callback', function (req, res, next) {
+  passport.authenticate('twitter', function (err, user, info) {
+    if (err) {
+      return next(err);
+    }
+
+    if (!user) {
+      return res.redirect('/login');
+    }
+
+    req.login(user, function (err) {
+      if (err) {
+        return next(err);
+      }
+
+      res.cookie('uid', user._id.toString());
+      return res.redirect('/');
+    });
+  })(req, res, next);
+});
 
 /**
  * Helper function to authenticate.
@@ -60,6 +75,9 @@ function ensureAuthenticated(req, res, next) {
 }
 
 app.get('/users', ensureAuthenticated, users.list);
-app.get('/users/:user_id', ensureAuthenticated, users.get);
+app.get('/users/:user_id', ensureAuthenticated, users.retrieve);
+
 app.get('/workouts', ensureAuthenticated, workouts.list);
+app.get('/workouts/:workout_id', ensureAuthenticated, workouts.retrieve);
 app.post('/workouts', ensureAuthenticated, workouts.create);
+

@@ -29,7 +29,7 @@ User.list = function (req, res) {
 /**
  * REST retrieve callback.
  */
-User.get = function (req, res) {
+User.retrieve = function (req, res) {
   if (!req.params.user_id) {
     res.send(400);
     return;
@@ -93,6 +93,42 @@ User.findAll = function () {
     }
 
     deferred.resolve(users);
+  });
+
+  return deferred.promise;
+};
+
+/**
+ * Internal find or create method.
+ *
+ * @param {string} username
+ *   The username to look up.
+ *
+ * @return promise
+ */
+User.findOrCreate = function (username) {
+  var deferred = new Deferred();
+
+  UserModel.findOne({ name: username }, function (err, user) {
+    if (err) {
+      deferred.reject(err);
+      return;
+    }
+
+    if (user) {
+      deferred.resolve(user);
+    }
+    else {
+      user = new UserModel({ name: username });
+      user.save(function (err) {
+        if (err) {
+          deferred.reject(err);
+          return;
+        }
+
+        deferred.resolve(user);
+      });
+    }
   });
 
   return deferred.promise;

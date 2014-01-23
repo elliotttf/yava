@@ -7,6 +7,6 @@ MyYoga.ApplicationSerializer = DS.RESTSerializer.extend({
 });
 
 DS.RESTAdapter.reopen({
-  namespace: 'v1',
+  namespace: MyYoga.get('apiVersion'),
 });
 

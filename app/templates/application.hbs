@@ -1,11 +1,15 @@
 <header>
   <h1>My Yoga!</h1>
 </header>
-<nav>
+<nav id="nav">
   <ul>
-    <li><a href="/">Home</a>
-    <li><a href="/#/workouts">My Workouts</a>
-    <li><a href="/#/workouts/new">New Workout</a>
+    <li>{{#linkTo 'index'}}Home{{/linkTo}}
+    {{#if loggedIn}}
+      <li>{{#linkTo 'workouts'}}Workouts{{/linkTo}}
+      <li>{{#linkTo 'workouts.new'}}New Workout{{/linkTo}}
+    {{else}}
+      <li>{{#linkTo 'login'}}Log in{{/linkTo}}
+    {{/if}}
   </ul>
 </nav>
 
