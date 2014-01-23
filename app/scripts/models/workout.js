@@ -2,6 +2,7 @@ MyYoga.Workout = DS.Model.extend({
   title: DS.attr('string'),
   date: DS.attr('date'),
   duration: DS.attr('number'),
+  notes: DS.attr('string'),
   user: DS.belongsTo('user'),
 
   /**

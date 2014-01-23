@@ -13,8 +13,10 @@ MyYoga.WorkoutsNewView = Ember.View.extend({
     }
 
     var min = this.get('controller').get('startTime');
-    min = moment(min, 'LT');
+    if (min) {
+      min = moment(min, 'LT');
 
-    this.endPicker.set('min', [min.format('H'), min.format('m') ]);
+      this.endPicker.set('min', [min.format('H'), min.format('m') ]);
+    }
   }.observes('controller.startTime')
 });
