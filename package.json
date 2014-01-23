@@ -1,6 +1,6 @@
 {
   "name": "my-yoga",
-  "version": "0.0.0",
+  "version": "0.0.0-1",
   "dependencies": {
     "express": "3.4.7",
     "jade": "*",
@@ -38,7 +38,6 @@
   "engines": {
     "node": ">=0.8.0"
   },
-  "subdomain": "elliotttf-my-yoga",
   "scripts": {
     "start": "node app"
   }
