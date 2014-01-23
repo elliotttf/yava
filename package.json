@@ -37,5 +37,9 @@
   },
   "engines": {
     "node": ">=0.8.0"
+  },
+  "subdomain": "elliotttf-my-yoga",
+  "scripts": {
+    "start": "node app"
   }
 }
