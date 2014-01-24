@@ -96,6 +96,27 @@ Workout.update = function (req, res) {
 };
 
 /**
+ * REST delete callback.
+ */
+Workout.delete = function (req, res) {
+  if (!req.params.workout_id) {
+    res.send(400);
+    return;
+  }
+
+  Workout.remove(req.params.workout_id)
+    .then(
+      function () {
+        res.send(204);
+      },
+      function (err) {
+        console.log(err);
+        res.send(500);
+      }
+    );
+};
+
+/**
  * Internal API function to select all workouts.
  *
  * @param {object} query
@@ -192,6 +213,29 @@ Workout.save = function (workout, id) {
       });
     });
   }
+
+  return deferred.promise;
+};
+
+/**
+ * Internal API method to remove a workout.
+ *
+ * @param {string} id
+ *   The workout's id to be removed.
+ *
+ * @return promise
+ */
+Workout.remove = function (id) {
+  var deferred = new Deferred();
+
+  WorkoutModel.remove({ _id: id }, function (err) {
+    if (err) {
+      deferred.reject(err);
+      return;
+    }
+
+    deferred.resolve();
+  });
 
   return deferred.promise;
 };

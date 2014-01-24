@@ -74,12 +74,21 @@ function ensureAuthenticated(req, res, next) {
   res.redirect('/');
 }
 
+/**
+ * Helper function to grant access to owned resources.
+ */
+function ensureOwner(req, res, next) {
+  // TODO - look up the owner based on the session and confirm the session
+  // user is the owner of the asset.
+  return next();
+}
+
 app.get('/users', ensureAuthenticated, users.list);
 app.get('/users/:user_id', ensureAuthenticated, users.retrieve);
 
 app.get('/workouts', ensureAuthenticated, workouts.list);
-app.get('/workouts/:workout_id', ensureAuthenticated, workouts.retrieve);
-// TODO - ensure only author can update.
-app.put('/workouts/:workout_id', ensureAuthenticated, workouts.update);
 app.post('/workouts', ensureAuthenticated, workouts.create);
+app.get('/workouts/:workout_id', ensureAuthenticated, workouts.retrieve);
+app.put('/workouts/:workout_id', ensureAuthenticated, ensureOwner, workouts.update);
+app.delete('/workouts/:workout_id', ensureAuthenticated, ensureOwner, workouts.delete);
 

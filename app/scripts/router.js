@@ -5,6 +5,7 @@ MyYoga.Router.map(function () {
 
     this.resource('workout', { path: '/:workout_id' }, function () {
       this.route('edit');
+      this.route('delete');
     });
   });
   this.route('login');
