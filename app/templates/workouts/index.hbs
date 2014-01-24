@@ -1,7 +1,7 @@
 <ul>
   {{#each item in controller}}
     <li>
-        <h4>{{item.title}}</h4>
+        <h4>{{#linkTo 'workout' item.id}}{{item.title}}{{/linkTo}}</h4>
         <div class="date">{{item.formattedDate}}</div>
         <div class="length">
           {{item.user.name}} worked out for <span class="duration">{{item.workoutLength}}.</span>

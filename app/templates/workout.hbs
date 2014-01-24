@@ -1,0 +1,11 @@
+{{#if mine}}
+  <nav id="workout-controls">
+    <ul>
+      <li>{{#linkTo 'workout' id}}View{{/linkTo}}
+      <li>{{#linkTo 'workout.edit' id}}Edit{{/linkTo}}
+    </ul>
+  </nav>
+{{/if}}
+<div id="workout">
+  {{outlet}}
+</div>
