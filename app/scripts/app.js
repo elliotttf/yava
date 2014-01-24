@@ -26,6 +26,9 @@ Ember.Application.initializer({
           }
         );
     }
+    else {
+      MyYoga.advanceReadiness();
+    }
   }
 });
 
