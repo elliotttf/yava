@@ -75,6 +75,27 @@ Workout.create = function (req, res) {
 };
 
 /**
+ * REST update callback.
+ */
+Workout.update = function (req, res) {
+  if (!req.body.workout || !req.params.workout_id) {
+    res.send(400);
+    return;
+  }
+
+  Workout.save(req.body.workout, req.params.workout_id)
+    .then(
+      function saved(savedWorkout) {
+        res.json({ workout: savedWorkout });
+      },
+      function error(err) {
+        console.log(error);
+        res.send(500);
+      }
+    );
+};
+
+/**
  * Internal API function to select all workouts.
  *
  * @param {object} query
@@ -135,17 +156,42 @@ Workout.findOne = function (id) {
 /**
  * Internal API function to save workout.
  */
-Workout.save = function (workout) {
+Workout.save = function (workout, id) {
   var deferred = new Deferred();
 
-  WorkoutModel.create(workout, function (err, workout) {
-    if (err) {
-      deferred.reject(err);
-      return;
-    }
+  if (typeof id === 'undefined') {
+    WorkoutModel.create(workout, function (err, workout) {
+      if (err) {
+        deferred.reject(err);
+        return;
+      }
 
-    deferred.resolve(workout.toObject());
-  });
+      deferred.resolve(workout.toObject());
+    });
+  }
+  else {
+    WorkoutModel.findOne({ _id: id }, function (err, workoutDoc) {
+      if (err) {
+        deferred.reject(err);
+        return;
+      }
+
+      if (!workoutDoc) {
+        deferred.reject('Not found');
+        return;
+      }
+
+      workoutDoc.set(workout);
+      workoutDoc.save(function (err, workout) {
+        if (err) {
+          deferred.reject(err);
+          return;
+        }
+
+        deferred.resolve(workout.toObject());
+      });
+    });
+  }
 
   return deferred.promise;
 };

@@ -79,5 +79,7 @@ app.get('/users/:user_id', ensureAuthenticated, users.retrieve);
 
 app.get('/workouts', ensureAuthenticated, workouts.list);
 app.get('/workouts/:workout_id', ensureAuthenticated, workouts.retrieve);
+// TODO - ensure only author can update.
+app.put('/workouts/:workout_id', ensureAuthenticated, workouts.update);
 app.post('/workouts', ensureAuthenticated, workouts.create);
 

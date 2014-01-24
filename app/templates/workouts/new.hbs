@@ -12,7 +12,7 @@
   </div>
   <div id="date">
     Date
-    {{input placeholder=datePlaceholder class="datepicker required" value=date}}
+    {{input placeholder=datePlaceholder class="datepicker required" value=formattedDate}}
     {{#if dateErrors}}
       <ul id="date-errors">
         {{#each error in dateErrors}}

@@ -31,6 +31,14 @@ MyYoga.WorkoutsNewController = Ember.ObjectController.extend({
   }.property('date'),
 
   /**
+   * Format the calendar date.
+   */
+  formattedDate: function () {
+    var date = this.get('date');
+    return date ? moment(date).format('D MMMM YYYY') : '';
+  }.property('date'),
+
+  /**
    * Format the start time based on the date.
    */
   startTime: function() {
@@ -66,7 +74,7 @@ MyYoga.WorkoutsNewController = Ember.ObjectController.extend({
     this.set('dateErrors', []);
     this.set('dateValid', true);
 
-    var date = this.get('date');
+    var date = this.get('formattedDate');
     if (typeof date !== 'undefined') {
       if (date === null || date.length === 0) {
         this.get('dateErrors').push('The workout date is required.');
@@ -74,7 +82,7 @@ MyYoga.WorkoutsNewController = Ember.ObjectController.extend({
         return;
       }
 
-      if (!moment(this.get('date')).isValid()) {
+      if (!moment(date).isValid()) {
         this.get('dateErrors').push('Invalid date format.');
         this.set('dateValid', false);
       }
@@ -96,7 +104,7 @@ MyYoga.WorkoutsNewController = Ember.ObjectController.extend({
       // Validate using just the time and the time + date in case a different,
       // but valid, time format was used.
       var timeValid = moment(this.get('startTime'), 'h:i A').isValid();
-      var dateValid = moment(this.get('date') + ' ' + this.get('startTime')).isValid();
+      var dateValid = moment(this.get('formattedDate') + ' ' + this.get('startTime')).isValid();
       if (!timeValid && !dateValid) {
         this.get('startTimeErrors').push('Invalid time format.');
         this.set('startTimeValid', false);
@@ -119,7 +127,7 @@ MyYoga.WorkoutsNewController = Ember.ObjectController.extend({
       // Validate using just the time and the time + date in case a different,
       // but valid, time format was used.
       var timeValid = moment(this.get('endTime'), 'h:i A').isValid();
-      var dateValid = moment(this.get('date') + ' ' + this.get('endTime')).isValid();
+      var dateValid = moment(this.get('formattedDate') + ' ' + this.get('endTime')).isValid();
       if (!timeValid && !dateValid) {
         this.get('endTimeErrors').push('Invalid time format.');
         this.set('endTimeValid', false);
@@ -139,7 +147,7 @@ MyYoga.WorkoutsNewController = Ember.ObjectController.extend({
       this.get('endTimeValid');
 
     valid = valid && (typeof this.get('title') !== 'undefined');
-    valid = valid && (typeof this.get('date') !== 'undefined');
+    valid = valid && (typeof this.get('formattedDate') !== 'undefined');
     valid = valid && (typeof this.get('startTime') !== 'undefined');
     valid = valid && (typeof this.get('endTime') !== 'undefined');
 
@@ -149,16 +157,26 @@ MyYoga.WorkoutsNewController = Ember.ObjectController.extend({
   actions: {
     saveWorkout: function () {
       if (this.get('isValid')) {
-        var startDate = moment(this.get('date') + ' ' + this.get('startTime'));
-        var endDate = moment(this.get('date') + ' ' + this.get('endTime'));
+        var startDate = moment(this.get('formattedDate') + ' ' + this.get('startTime'));
+        var endDate = moment(this.get('formattedDate') + ' ' + this.get('endTime'));
+        var workout;
 
-        var workout = this.store.createRecord('workout', {
-          title: this.get('title'),
-          date: new Date(startDate.toISOString()),
-          duration: (endDate.unix() - startDate.unix()),
-          notes: this.get('notes'),
-          user: MyYoga.MyUser.get('user')
-        });
+        if (!this.get('id')) {
+          workout = this.store.createRecord('workout', {
+            title: this.get('title'),
+            date: new Date(startDate.toISOString()),
+            duration: (endDate.unix() - startDate.unix()),
+            notes: this.get('notes'),
+            user: MyYoga.MyUser.get('user')
+          });
+        }
+        else {
+          workout = this.get('model');
+          workout.set('title', this.get('title'));
+          workout.set('date', new Date(startDate.toISOString()));
+          workout.set('duration', (endDate.unix() - startDate.unix()));
+          workout.set('notes', this.get('notes'));
+        }
 
         workout.save();
 
