@@ -117,6 +117,31 @@ Workout.delete = function (req, res) {
 };
 
 /**
+ * Helper function to confirm whether or not a user is the owner of a workout.
+ *
+ * @param {string} accountId
+ *   The ID to compare to the workout owner.
+ * @param {string} workoutId
+ *   The ID of the workout to check.
+ *
+ * @return promise
+ */
+Workout.isOwner = function (accountId, workoutId) {
+  var deferred = new Deferred();
+
+  WorkoutModel.findOne({ _id: workoutId, user: accountId }, function (err, workout) {
+    if (err || !workout) {
+      deferred.reject(err);
+      return;
+    }
+
+    deferred.resolve();
+  });
+
+  return deferred.promise;
+};
+
+/**
  * Internal API function to select all workouts.
  *
  * @param {object} query

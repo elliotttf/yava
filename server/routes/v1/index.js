@@ -71,16 +71,34 @@ function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
     return next();
   }
-  res.redirect('/');
+  res.send(401);
 }
 
 /**
  * Helper function to grant access to owned resources.
  */
 function ensureOwner(req, res, next) {
-  // TODO - look up the owner based on the session and confirm the session
-  // user is the owner of the asset.
-  return next();
+  var resource = null;
+  if (typeof req.params.user_id !== 'undefined') {
+    resource = users;
+  }
+  else if (typeof req.params.workout_id !== 'undefined') {
+    resource = workouts;
+  }
+
+  if (resource) {
+    resource.isOwner(req.user.id, req.params.user_id).then(
+      function () {
+        return next();
+      },
+      function () {
+        res.send(401);
+      }
+    );
+  }
+  else {
+    res.send(401);
+  }
 }
 
 app.get('/users', ensureAuthenticated, users.list);

@@ -55,6 +55,31 @@ User.retrieve = function (req, res) {
 };
 
 /**
+ * Helper function to confirm whether or not a user is the owner of a workout.
+ *
+ * @param {string} accountId
+ *   The ID to compare to the workout owner.
+ * @param {string} userId
+ *   The ID of the workout to check.
+ *
+ * @return promise
+ */
+User.isOwner = function (accountId, userId) {
+  var deferred = new Deferred();
+
+  UserModel.findOne({ _id: userId, user: accountId }, function (err, workout) {
+    if (err || !workout) {
+      deferred.reject(err);
+      return;
+    }
+
+    deferred.resolve();
+  });
+
+  return deferred.promise;
+};
+
+/**
  * Internal find callback.
  *
  * @param {string} id
