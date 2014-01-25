@@ -1,0 +1,7 @@
+// Color definitions.
+
+$nav-bottom: #000;
+
+$error-color: #FF0000;
+$error-border-color: $error-color;
+$error-background-color: tint($error-color, 80);

@@ -140,7 +140,12 @@ module.exports = function (grunt) {
         httpImagesPath: '/images',
         httpGeneratedImagesPath: '/images/generated',
         httpFontsPath: '/styles/fonts',
-        relativeAssets: false
+        relativeAssets: false,
+        require: [
+          'compass-normalize',
+          'singularitygs',
+          'breakpoint'
+        ]
       },
       dist: {},
       server: {

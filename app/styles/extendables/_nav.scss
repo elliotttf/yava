@@ -1,0 +1,26 @@
+%full-width-nav {
+  @include grid-span(12);
+  margin-bottom: 1em;
+
+  @include breakpoint($bp-nav-horizontal) {
+    border-bottom: 1px solid $nav-bottom;
+  }
+
+  ul {
+    @extend %no-style-list;
+  }
+
+  a {
+    @include grid-span(12);
+    display: block;
+    padding: 0.5em 0;
+    text-align: center;
+    border-bottom: 1px solid $nav-bottom;
+
+    @include breakpoint($bp-nav-horizontal) {
+      @include grid-span(3);
+      border-bottom: none;
+    }
+  }
+}
+

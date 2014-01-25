@@ -1,0 +1,20 @@
+.input {
+  @include grid-span(10);
+  margin-bottom: 1em;
+}
+
+.input-elements {
+  @include grid-span(10);
+}
+
+.input-errors {
+  @include grid-span(10);
+  padding: 0.5em 0 0.5em 40px;
+  border: 1px solid $error-border-color;
+  background-color: $error-background-color;
+  color: $error-color;
+
+  @include breakpoint($bp-forms-smaller-errors) {
+    @include grid-span(6);
+  }
+}

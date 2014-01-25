@@ -1,0 +1,7 @@
+#main {
+  @include grid-span(12);
+
+  .inner {
+    padding: 0 1em;
+  }
+}

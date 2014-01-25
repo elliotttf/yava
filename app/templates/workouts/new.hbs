@@ -1,51 +1,63 @@
-<div id="new-workout">
-  <div id="title">
-    Title
-    {{input placeholder="Hatha Yoga" class="required" value=title}}
+<div id="new-workout" class="inner">
+  <div id="title" class="input">
+    <div class="input-elements">
+      Title
+      {{input placeholder="Hatha Yoga" class="required" value=title}}
+    </div>
     {{#if titleErrors}}
-      <ul id="title-errors">
+      <ul id="title-errors" class="input-errors">
         {{#each error in titleErrors}}
           <li class="error">{{error}}</li>
         {{/each}}
       </ul>
     {{/if}}
   </div>
-  <div id="date">
-    Date
-    {{input placeholder=datePlaceholder class="datepicker required" value=formattedDate}}
+  <div id="date" class="input">
+    <div class="input-elements">
+      Date
+      {{input placeholder=datePlaceholder class="datepicker required" value=formattedDate}}
+    </div>
     {{#if dateErrors}}
-      <ul id="date-errors">
+      <ul id="date-errors" class="input-errors">
         {{#each error in dateErrors}}
           <li class="error">{{error}}</li>
         {{/each}}
       </ul>
     {{/if}}
   </div>
-  <div id="start">
-    Start time
-    {{input placeholder=startTimePlaceholder class="timepicker required" value=startTime}}
+  <div id="start" class="input">
+    <div class="input-elements">
+      Start time
+      {{input placeholder=startTimePlaceholder class="timepicker required" value=startTime}}
+    </div>
     {{#if startTimeErrors}}
-      <ul id="start-time-errors">
+      <ul id="start-time-errors" class="input-errors">
         {{#each error in startTimeErrors}}
           <li class="error">{{error}}</li>
         {{/each}}
       </ul>
     {{/if}}
   </div>
-  <div id="end">
-    End time
-    {{input placeholder=endTimePlaceholder class="timepicker required" value=endTime}}
+  <div id="end" class="input">
+    <div class="input-elements">
+      End time
+      {{input placeholder=endTimePlaceholder class="timepicker required" value=endTime}}
+    </div>
     {{#if endTimeErrors}}
-      <ul id="end-time-errors">
+      <ul id="end-time-errors" class="input-errors">
         {{#each error in endTimeErrors}}
           <li class="error">{{error}}</li>
         {{/each}}
       </ul>
     {{/if}}
   </div>
-  <div id="notes">
-    Notes
-    {{textarea placeholder="notes" value=notes}}
+  <div id="notes" class="input">
+    <div class="input-elements">
+      Notes
+      {{textarea placeholder="notes" value=notes}}
+    </div>
   </div>
-  <button id="save-workout" {{action "saveWorkout"}}>Save Workout</button>
+  <div id="save-workout" class="input">
+    <button {{action "saveWorkout"}}>Save Workout</button>
+  </div>
 </div>

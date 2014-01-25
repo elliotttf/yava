@@ -1,4 +1,6 @@
 source 'https://rubygems.org'
-gem "sass", "~>3.2.0"
-gem "compass", "~>0.12.0"
-gem "singularitygs", "~>1.1.2"
+gem 'sass', '~>3.3.0.rc.2'
+gem 'compass', '~>1.0.0.alpha.13'
+gem 'compass-normalize', '~> 1.4.3'
+gem 'singularitygs', '~>1.2.0.rc.3'
+gem 'font-awesome-sass'

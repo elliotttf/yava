@@ -1,18 +1,20 @@
-<header>
-  <h1>My Yoga!</h1>
-</header>
-<nav id="nav">
-  <ul>
-    <li>{{#linkTo 'index'}}Home{{/linkTo}}
-    {{#if loggedIn}}
-      <li>{{#linkTo 'workouts'}}Workouts{{/linkTo}}
-      <li>{{#linkTo 'workouts.new'}}New Workout{{/linkTo}}
-    {{else}}
-      <li>{{#linkTo 'login'}}Log in{{/linkTo}}
-    {{/if}}
-  </ul>
-</nav>
+<div id="main">
+  <header>
+    <h1>My Yoga!</h1>
+  </header>
+  <nav id="nav">
+    <ul>
+      <li>{{#linkTo 'index'}}Home{{/linkTo}}
+      {{#if loggedIn}}
+        <li>{{#linkTo 'workouts'}}Workouts{{/linkTo}}
+        <li>{{#linkTo 'workouts.new'}}New Workout{{/linkTo}}
+      {{else}}
+        <li>{{#linkTo 'login'}}Log in{{/linkTo}}
+      {{/if}}
+    </ul>
+  </nav>
 
-<div class="main">
-  {{outlet}}
+  <div class="main">
+    {{outlet}}
+  </div>
 </div>

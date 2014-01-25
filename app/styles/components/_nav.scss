@@ -1,0 +1,44 @@
+// Navication styles.
+
+@import "compass/css3/transition";
+
+#nav-handle {
+  @include breakpoint($bp-nav-horizontal) {
+    display: none;
+  }
+}
+
+#nav {
+  @extend %full-width-nav;
+
+  &.hidden {
+    display: none;
+    @include breakpoint($bp-nav-horizontal) {
+      display: block;
+    }
+  }
+}
+
+#subnav {
+  @extend %full-width-nav;
+}
+
+#workout-controls {
+  @include grid-span(12);
+  margin-bottom: 1em;
+
+  ul {
+    @extend %no-style-list;
+  }
+
+  a {
+    @include grid-span(4);
+    padding: 0.5em 0;
+    text-align: center;
+
+    @include breakpoint($bp-nav-workout-controls-smaller) {
+      @include grid-span(1);
+    }
+  }
+}
+

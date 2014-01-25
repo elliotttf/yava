@@ -1,0 +1,27 @@
+/**
+ * Styles generated with compass. If you're editing CSS directly your changes
+ * will be lost when the stylesheets are recompiled.
+ */
+
+$legacy-support-for-ie6: false;
+$legacy-support-for-ie7: false;
+$legacy-support-for-ie8: false;
+$legacy-support-for-mozilla: false;
+@import 'normalize';
+@import 'singularitygs';
+@import 'breakpoint';
+
+@include add-grid(12);
+@include add-gutter(1em);
+@include sgs-change('output', 'float');
+
+@import 'variables/breakpoints';
+@import 'variables/color';
+
+@import 'extendables/lists';
+@import 'extendables/nav';
+
+@import 'components/app';
+@import 'components/forms';
+@import 'components/nav';
+@import 'components/workouts';
