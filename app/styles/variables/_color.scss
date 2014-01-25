@@ -1,7 +1,23 @@
 // Color definitions.
 
-$nav-bottom: #000;
+// Initial palette - generated from http://www.darylbenson.com/wp-content/uploads/2012/03/Bamboo-Forest-at-dusk-Kyoto-Japan.jpg
+$palette-gray: #444455;
+$palette-dark-blue: #2277cc;
+$palette-mid-green: #55aa88;
+$palette-mid-blue: #22aaff;
+$palette-light-blue: #77ddff;
 
+// App colors.
+$text-color: $palette-gray;
+$link-color: $palette-mid-blue;
+$link-visited-color: $link-color;
+$h1-color: $palette-dark-blue;
+
+// Nav colors.
+$nav-bottom: $palette-gray;
+
+// Form colors.
 $error-color: #FF0000;
 $error-border-color: $error-color;
 $error-background-color: tint($error-color, 80);
+

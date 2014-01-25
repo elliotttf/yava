@@ -1,7 +1,23 @@
 #main {
   @include grid-span(12);
 
+  color: $text-color;
+
   .inner {
     padding: 0 1em;
+  }
+}
+
+h1 {
+  color: $h1-color;
+  font-family: 'Rock Salt', cursive;
+}
+
+a {
+  color: $link-color;
+  text-decoration: none;
+
+  &:visited {
+    color: $link-visited-color;
   }
 }
