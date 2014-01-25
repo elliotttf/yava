@@ -35,7 +35,7 @@ MyYoga.WorkoutsNewController = Ember.ObjectController.extend({
    */
   formattedDate: function () {
     var date = this.get('date');
-    return date ? moment(date).format('D MMMM YYYY') : '';
+    return date ? moment(date).format('D MMMM YYYY') : date;
   }.property('date'),
 
   /**
