@@ -14,6 +14,6 @@ Config.production = {
   twitter: {
     key: 'jmds7SI27wEHyLZ9Meabhg',
     secret: 'IQwhJsia509yVzD91TjM71v6QuKqCr8dFST4Mm932E',
-    callback: 'http://my-yoga.herokuapp.com/v1/auth/twitter/callback'
+    callback: 'http://www.yava.co/v1/auth/twitter/callback'
   }
 };
