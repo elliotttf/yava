@@ -79,15 +79,18 @@ function ensureAuthenticated(req, res, next) {
  */
 function ensureOwner(req, res, next) {
   var resource = null;
+  var param = null;
   if (typeof req.params.user_id !== 'undefined') {
     resource = users;
+    param = req.params.user_id;
   }
   else if (typeof req.params.workout_id !== 'undefined') {
     resource = workouts;
+    param = req.params.workout_id;
   }
 
   if (resource) {
-    resource.isOwner(req.user.id, req.params.user_id).then(
+    resource.isOwner(req.user._id, param).then(
       function () {
         return next();
       },
