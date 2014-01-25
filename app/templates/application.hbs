@@ -1,20 +1,20 @@
 <div id="main">
   <header class="inner">
-    <h1>Yava</h1>
+    {{#linkTo 'index'}}<h1>Yava</h1>{{/linkTo}}
   </header>
   <nav id="nav">
     <ul>
-      <li>{{#linkTo 'index'}}Home{{/linkTo}}
       {{#if loggedIn}}
         <li>{{#linkTo 'workouts'}}Workouts{{/linkTo}}
         <li>{{#linkTo 'workouts.new'}}New Workout{{/linkTo}}
+        <li>{{#linkTo 'logout'}}Log out{{/linkTo}}
       {{else}}
         <li>{{#linkTo 'login'}}Log in{{/linkTo}}
       {{/if}}
     </ul>
   </nav>
 
-  <div class="main">
+  <div class="main-content">
     {{outlet}}
   </div>
 </div>

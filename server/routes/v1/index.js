@@ -63,6 +63,10 @@ app.get('/auth/twitter/callback', function (req, res, next) {
     });
   })(req, res, next);
 });
+app.get('/logout', function (req, res) {
+  req.logout();
+  res.redirect('/');
+});
 
 /**
  * Helper function to authenticate.

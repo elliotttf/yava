@@ -1,0 +1,14 @@
+@import 'compass/css3/images';
+
+#main {
+  #about {
+    @include background(image-url('bamboo.jpg'));
+    padding: 2em 1em;
+    color: $small-about-color;
+
+    @include breakpoint($bp-about-big) {
+      background: none;
+      color: $text-color;
+    }
+  }
+}

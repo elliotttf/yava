@@ -8,6 +8,10 @@
   }
 }
 
+.main-content {
+  @include grid-span(12);
+}
+
 h1 {
   color: $h1-color;
   font-family: 'Rock Salt', cursive;

@@ -13,6 +13,12 @@ MyYoga.Auth = Ember.Object.extend({
     this._super();
 
     this.set('uid', jQuery.cookie('uid'));
+  },
+
+  destroy: function () {
+    this._super();
+
+    jQuery.removeCookie('uid');
   }
 });
 
