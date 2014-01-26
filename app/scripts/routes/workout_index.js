@@ -1,6 +1,6 @@
-MyYoga.WorkoutIndexRoute = Ember.Route.extend({
+Yava.WorkoutIndexRoute = Ember.Route.extend({
   beforeModel: function () {
-    if (!MyYoga.MyUser.get('loggedIn')) {
+    if (!Yava.MyUser.get('loggedIn')) {
       this.transitionTo('login');
     }
   },

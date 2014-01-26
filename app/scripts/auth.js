@@ -1,4 +1,4 @@
-MyYoga.Auth = Ember.Object.extend({
+Yava.Auth = Ember.Object.extend({
   uid: null,
   user: null,
 

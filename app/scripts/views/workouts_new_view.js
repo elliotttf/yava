@@ -1,4 +1,4 @@
-MyYoga.WorkoutsNewView = Ember.View.extend({
+Yava.WorkoutsNewView = Ember.View.extend({
   didInsertElement: function () {
     var self = this;
     self.$('.datepicker').pickadate();

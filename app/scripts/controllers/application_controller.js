@@ -1,6 +1,6 @@
-MyYoga.ApplicationController = Ember.Controller.extend({
+Yava.ApplicationController = Ember.Controller.extend({
   loggedIn: function () {
-    return MyYoga.MyUser.get('loggedIn');
+    return Yava.MyUser.get('loggedIn');
   }.property()
 });
 

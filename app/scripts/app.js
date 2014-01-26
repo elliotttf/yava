@@ -1,4 +1,4 @@
-var MyYoga = window.MyYoga = Ember.Application.create({
+var Yava = window.Yava = Ember.Application.create({
   apiVersion: 'v1'
 });
 
@@ -9,25 +9,25 @@ Ember.Application.initializer({
   name: 'auth',
   after: 'store',
   initialize: function (container) {
-    MyYoga.deferReadiness();
-    MyYoga.MyUser = MyYoga.Auth.create();
+    Yava.deferReadiness();
+    Yava.MyUser = Yava.Auth.create();
 
-    var uid = MyYoga.MyUser.get('uid');
+    var uid = Yava.MyUser.get('uid');
     if (uid) {
       var store = container.lookup('store:main');
       store.find('user', uid)
         .then(
           function (user) {
-            MyYoga.MyUser.set('user', user);
-            MyYoga.advanceReadiness();
+            Yava.MyUser.set('user', user);
+            Yava.advanceReadiness();
           },
           function (err) {
-            MyYoga.advanceReadiness();
+            Yava.advanceReadiness();
           }
         );
     }
     else {
-      MyYoga.advanceReadiness();
+      Yava.advanceReadiness();
     }
   }
 });

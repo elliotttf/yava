@@ -1,4 +1,4 @@
-MyYoga.Router.map(function () {
+Yava.Router.map(function () {
   this.resource('workouts', function () {
     this.route('mine');
     this.route('new');

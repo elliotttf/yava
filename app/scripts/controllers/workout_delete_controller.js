@@ -1,4 +1,4 @@
-MyYoga.WorkoutDeleteController = Ember.ObjectController.extend({
+Yava.WorkoutDeleteController = Ember.ObjectController.extend({
   actions: {
     delete: function () {
       var workout = this.get('model');

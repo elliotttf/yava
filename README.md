@@ -1,4 +1,4 @@
-# My Yoga
+# Yava
 
 A simple yoga tracking app.
 

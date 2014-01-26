@@ -1,4 +1,4 @@
-MyYoga.WorkoutsNewController = Ember.ObjectController.extend({
+Yava.WorkoutsNewController = Ember.ObjectController.extend({
   titleErrors: [],
   dateErrors: [],
   startTimeErrors: [],
@@ -167,7 +167,7 @@ MyYoga.WorkoutsNewController = Ember.ObjectController.extend({
             date: new Date(startDate.toISOString()),
             duration: (endDate.unix() - startDate.unix()),
             notes: this.get('notes'),
-            user: MyYoga.MyUser.get('user')
+            user: Yava.MyUser.get('user')
           });
         }
         else {

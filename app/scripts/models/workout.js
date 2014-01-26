@@ -1,4 +1,4 @@
-MyYoga.Workout = DS.Model.extend({
+Yava.Workout = DS.Model.extend({
   title: DS.attr('string'),
   date: DS.attr('date'),
   duration: DS.attr('number'),

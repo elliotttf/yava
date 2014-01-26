@@ -1,4 +1,4 @@
-MyYoga.WorkoutsIndexController = Ember.ArrayController.extend({
+Yava.WorkoutsIndexController = Ember.ArrayController.extend({
   sortProperties: ['date'],
   sortAscending: false
 });

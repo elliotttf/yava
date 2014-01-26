@@ -1,11 +1,11 @@
-MyYoga.WorkoutsMineRoute = Ember.Route.extend({
+Yava.WorkoutsMineRoute = Ember.Route.extend({
   beforeModel: function () {
-    if (!MyYoga.MyUser.get('loggedIn')) {
+    if (!Yava.MyUser.get('loggedIn')) {
       this.transitionTo('login');
     }
   },
   model: function () {
-    return this.store.find('workout', { user: MyYoga.MyUser.get('uid') });
+    return this.store.find('workout', { user: Yava.MyUser.get('uid') });
   },
   renderTemplate: function (controller) {
     this.render('workouts/index', { controller: controller });
