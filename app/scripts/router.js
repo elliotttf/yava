@@ -1,4 +1,8 @@
 Yava.Router.map(function () {
+  // User routes.
+  this.resource('user', { path: '/users/:user_id' });
+
+  // Workout routes.
   this.resource('workouts', function () {
     this.route('mine');
     this.route('new');
@@ -8,6 +12,8 @@ Yava.Router.map(function () {
       this.route('delete');
     });
   });
+
+  // Auxillary routes.
   this.route('login');
   this.route('logout');
 });

@@ -29,6 +29,7 @@ module.exports = function (config) {
   });
 
   return {
+    Stat: mongoose.model('WorkoutStat', require(path.join(__dirname, 'stat'))),
     User: mongoose.model('User', require(path.join(__dirname, 'user'))),
     Workout: mongoose.model('Workout', require(path.join(__dirname, 'workout')))
   };

@@ -4,7 +4,7 @@
         <h4>{{#linkTo 'workout' item.id}}{{item.title}}{{/linkTo}}</h4>
         <div class="date">{{item.formattedDate}}</div>
         <div class="length">
-          {{item.user.name}} worked out for <span class="duration">{{item.workoutLength}}.</span>
+          {{#linkTo 'user' item.user.id}}{{item.user.name}}{{/linkTo}} worked out for <span class="duration">{{item.workoutLength}}.</span>
         </div>
     </li>
   {{/each}}

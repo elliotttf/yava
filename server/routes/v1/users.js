@@ -159,6 +159,48 @@ User.findOrCreate = function (username) {
   return deferred.promise;
 };
 
+/**
+ * Internal save method.
+ *
+ * @param {object} user
+ *   The user object to update.
+ * @param {string} id
+ *   The user id to update.
+ *
+ * @return promise
+ */
+User.save = function (user, id) {
+  var deferred = new Deferred();
+
+  if (typeof id === 'undefined') {
+  }
+  else {
+    UserModel.findOne(id, function (err, userDoc) {
+      if (err) {
+        deferred.reject(err);
+        return;
+      }
+
+      if (!userDoc) {
+        deferred.reject('Not found');
+        return;
+      }
+
+      userDoc.set(user);
+      userDoc.save(function (err, user) {
+        if (err) {
+          deferred.reject(err);
+          return;
+        }
+
+        deferred.resolve(user.toObject());
+      });
+    });
+  }
+
+  return deferred.promise;
+};
+
 module.exports = function (userModel) {
   UserModel = userModel;
   return User;

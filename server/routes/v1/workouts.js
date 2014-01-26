@@ -6,6 +6,7 @@ var Deferred = require('promised-io/promise').Deferred;
 
 var Workout = {};
 var WorkoutModel;
+var Stats;
 
 /**
  * REST index callback.
@@ -91,6 +92,7 @@ Workout.update = function (req, res) {
       function error(err) {
         console.log(error);
         res.send(500);
+        return;
       }
     );
 };
@@ -112,6 +114,7 @@ Workout.delete = function (req, res) {
       function (err) {
         console.log(err);
         res.send(500);
+        return;
       }
     );
 };
@@ -213,6 +216,7 @@ Workout.save = function (workout, id) {
       }
 
       deferred.resolve(workout.toObject());
+      Stats.update(workout.get('user'));
     });
   }
   else {
@@ -235,6 +239,7 @@ Workout.save = function (workout, id) {
         }
 
         deferred.resolve(workout.toObject());
+        Stats.update(workout.get('user'));
       });
     });
   }
@@ -260,13 +265,15 @@ Workout.remove = function (id) {
     }
 
     deferred.resolve();
+    // TODO - update Stats.
   });
 
   return deferred.promise;
 };
 
-module.exports = function (workoutModel) {
+module.exports = function (workoutModel, stats) {
   WorkoutModel = workoutModel;
+  Stats = stats;
   return Workout;
 };
 

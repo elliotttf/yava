@@ -10,8 +10,9 @@ var config = require(path.join(__dirname, '..', '..', 'config', 'config'))[app.g
 
 var models = require(path.join(__dirname, '..', '..', 'models', 'v1'))(config);
 
+var stats = require(path.join(__dirname, 'stats'))(models.Stat, models.Workout);
 var users = require(path.join(__dirname, 'users'))(models.User);
-var workouts = require(path.join(__dirname, 'workouts'))(models.Workout);
+var workouts = require(path.join(__dirname, 'workouts'))(models.Workout, stats);
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -33,7 +34,39 @@ passport.use(new TwitterStrategy(
     users.findOrCreate(profile.username)
       .then(
         function ok(user) {
+          // Update photo information from twitter.
+          if (typeof profile.photos[0] !== 'undefined') {
+            user.photo = profile.photos[0].value;
+          }
+
+          // Handling a field I should have added earlier ಥ_ಥ.
+          if (!user.created) {
+            user.created = new Date();
+          }
+
+          user.lastLogin = new Date();
+
+          // Pass through to the response before we make more DB changes.
           done(null, user);
+
+          user = user.toObject();
+          var id = user._id;
+          delete user._id;
+
+          if (!user.stats) {
+            stats.createNew(id).then(
+              function (stat) {
+                user.stats = stat._id;
+                users.save(user, id);
+              },
+              function (err) {
+                users.save(user, id);
+              }
+            );
+          }
+          else {
+            users.save(user, id);
+          }
         },
         function error(err) {
           done(err);
@@ -108,12 +141,14 @@ function ensureOwner(req, res, next) {
   }
 }
 
+app.get('/stats/:stat_id', ensureAuthenticated, stats.retrieve);
+
 app.get('/users', ensureAuthenticated, users.list);
 app.get('/users/:user_id', ensureAuthenticated, users.retrieve);
 
 app.get('/workouts', ensureAuthenticated, workouts.list);
-app.post('/workouts', ensureAuthenticated, workouts.create);
+app.post('/workouts', ensureAuthenticated, workouts.create, stats.update);
 app.get('/workouts/:workout_id', ensureAuthenticated, workouts.retrieve);
-app.put('/workouts/:workout_id', ensureAuthenticated, ensureOwner, workouts.update);
-app.delete('/workouts/:workout_id', ensureAuthenticated, ensureOwner, workouts.delete);
+app.put('/workouts/:workout_id', ensureAuthenticated, ensureOwner, workouts.update, stats.update);
+app.delete('/workouts/:workout_id', ensureAuthenticated, ensureOwner, workouts.delete, stats.update);
 
