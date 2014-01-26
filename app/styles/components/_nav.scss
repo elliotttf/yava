@@ -36,6 +36,10 @@
     padding: 0.5em 0;
     text-align: center;
 
+    &.last {
+      margin-right: 0;
+    }
+
     @include breakpoint($bp-nav-workout-controls-smaller) {
       @include grid-span(1);
     }

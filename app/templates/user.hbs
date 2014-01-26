@@ -1,19 +1,24 @@
-<div id="user" class="inner">
-  <div class="user-meta">
-    <div class="user-data">
-      <h3>{{name}}</h3>
-      Yogi since {{since}}.
-    </div>
-    <div class="user-photo">
-      <img {{bindAttr src=photo}}>
-    </div>
-  </div>
-  <div class="user-stats-container">
-    {{#if stats.allHours}}
-      <div class="user-stats-all">
-        You've worked out {{stats.formattedAllHours}} in {{stats.allWorkouts}}
-        workouts so far. Keep it up!
+<div id="user">
+    <div class="user-meta">
+      <div class="user-data">
+        <div class="inner">
+          <h3 class="user-title">{{name}}</h3>
+          Yogi since {{since}}.
+        </div>
       </div>
-    {{/if}}
+      <div class="user-photo">
+        <img {{bindAttr src=photo}}>
+      </div>
+    </div>
+    <div class="user-stats-container">
+      <div class="inner">
+        {{#if stats.allHours}}
+          <div class="user-stats-all">
+            You've worked out {{stats.formattedAllHours}} in {{stats.allWorkouts}}
+            workouts so far. Keep it up!
+          </div>
+        {{/if}}
+      </div>
+    </div>
   </div>
 </div>

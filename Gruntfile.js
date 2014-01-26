@@ -130,6 +130,8 @@ module.exports = function (grunt) {
     },
     compass: {
       options: {
+        config: 'config.rb'
+        /*
         sassDir: '<%= yeoman.app %>/styles',
         cssDir: '.tmp/styles',
         generatedImagesDir: '.tmp/images/generated',
@@ -146,6 +148,7 @@ module.exports = function (grunt) {
           'singularitygs',
           'breakpoint'
         ]
+        */
       },
       dist: {},
       server: {
