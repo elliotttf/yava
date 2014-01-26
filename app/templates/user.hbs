@@ -9,6 +9,11 @@
     </div>
   </div>
   <div class="user-stats-container">
-    You've worked out {{stats.formattedAllHours}} in {{stats.allWorkouts}} workouts so far. Keep it up!
+    {{#if stats.allHours}}
+      <div class="user-stats-all">
+        You've worked out {{stats.formattedAllHours}} in {{stats.allWorkouts}}
+        workouts so far. Keep it up!
+      </div>
+    {{/if}}
   </div>
 </div>
