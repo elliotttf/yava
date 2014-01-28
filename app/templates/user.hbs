@@ -12,10 +12,28 @@
     </div>
     <div class="user-stats-container">
       <div class="inner">
+        {{#if stats.weekHours}}
+          <div class="user-stats-week">
+            <h4 class="stats-title">This Week</h4>
+            {{stats-block hours=stats.formattedWeekHours workouts=stats.weekWorkouts}}
+          </div>
+        {{/if}}
+        {{#if stats.monthHours}}
+          <div class="user-stats-month">
+            <h4 class="stats-title">This Month</h4>
+            {{stats-block hours=stats.formattedMonthHours workouts=stats.monthWorkouts}}
+          </div>
+        {{/if}}
+        {{#if stats.yearHours}}
+          <div class="user-stats-year">
+            <h4 class="stats-title">This Year</h4>
+            {{stats-block hours=stats.formattedYearHours workouts=stats.yearWorkouts}}
+          </div>
+        {{/if}}
         {{#if stats.allHours}}
           <div class="user-stats-all">
-            You've worked out {{stats.formattedAllHours}} in {{stats.allWorkouts}}
-            workouts so far. Keep it up!
+            <h4 class="stats-title">All Time</h4>
+            {{stats-block hours=stats.formattedAllHours workouts=stats.allWorkouts}}
           </div>
         {{/if}}
       </div>

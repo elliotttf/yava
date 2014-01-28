@@ -12,8 +12,29 @@ Yava.Stat = DS.Model.extend({
   /**
    * Returns a formatted time from the duration seconds.
    */
-  formattedAllHours: function () {
-    return moment.duration(this.get('allHours'), 'seconds').humanize();
+  formattedWeekHours: function () {
+    return moment.duration(this.get('weekHours'), 'seconds').asHours();
   }.property('duration'),
 
+  /**
+   * Returns a formatted time from the duration seconds.
+   */
+  formattedMonthHours: function () {
+    return moment.duration(this.get('monthHours'), 'seconds').asHours();
+  }.property('duration'),
+
+  /**
+   * Returns a formatted time from the duration seconds.
+   */
+  formattedYearHours: function () {
+    return moment.duration(this.get('yearHours'), 'seconds').asHours();
+  }.property('duration'),
+
+  /**
+   * Returns a formatted time from the duration seconds.
+   */
+  formattedAllHours: function () {
+    return moment.duration(this.get('allHours'), 'seconds').asHours();
+  }.property('duration'),
 });
+
