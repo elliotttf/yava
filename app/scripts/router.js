@@ -1,4 +1,11 @@
 Yava.Router.map(function () {
+  // Goal routes.
+  this.resource('goals', function () {
+    this.route('new');
+
+    this.resource('goal', { path: '/:goal_id' });
+  });
+
   // User routes.
   this.resource('user', { path: '/users/:user_id' });
 

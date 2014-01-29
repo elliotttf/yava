@@ -1,0 +1,13 @@
+<ul id="goals-list" class="inner">
+  {{#each item in controller}}
+    <li>
+      <h4>{{#linkTo 'goal' item.id}}{{item.title}}{{/linkTo}}</h4>
+      <div class="starts">{{item.formattedStart}}</div>
+      <div class="ends">{{item.formattedEnd}}</div>
+      <div class="goal-progress">
+        {{item.progress}}/{{item.total}}
+      </div>
+    </li>
+  {{/each}}
+</ul>
+

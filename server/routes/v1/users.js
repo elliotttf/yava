@@ -1,5 +1,5 @@
 /**
- * User routes.
+ * User routes and API.
  */
 
 var Deferred = require('promised-io/promise').Deferred;

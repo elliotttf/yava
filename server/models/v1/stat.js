@@ -14,7 +14,8 @@ var WorkoutStatSchema = module.exports = mongoose.Schema({
   allHours: Number,
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
+    ref: 'User',
+    index: true
   }
 });
 

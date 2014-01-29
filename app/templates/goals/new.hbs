@@ -1,0 +1,88 @@
+<div id="new-goal" class="inner">
+  <div id="title" class="input">
+    <div class="input-elements">
+      Title
+      {{input placeholder="Hatha Challenge" class="required" value=title}}
+    </div>
+    {{#if titleErrors}}
+      <ul id="title-errors" class="input-errors">
+        {{#each error in titleErrors}}
+          <li class="error">{{error}}</li>
+        {{/each}}
+      </ul>
+    {{/if}}
+  </div>
+  <div id="start" class="input">
+    <div class="input-elements">
+      Start Date
+      {{input placeholder=startPlaceholder class="datepicker required" value=formattedStart}}
+    </div>
+    {{#if startErrors}}
+      <ul id="start-errors" class="input-errors">
+        {{#each error in startErrors}}
+          <li class="error">{{error}}</li>
+        {{/each}}
+      </ul>
+    {{/if}}
+  </div>
+  <div id="end" class="input">
+    <div class="input-elements">
+      End Date
+      {{input placeholder=endPlaceholder class="datepicker required" value=formattedEnd}}
+    </div>
+    {{#if endErrors}}
+      <ul id="end-errors" class="input-errors">
+        {{#each error in endErrors}}
+          <li class="error">{{error}}</li>
+        {{/each}}
+      </ul>
+    {{/if}}
+  </div>
+  <div class="input">
+    Goal Type
+    <div class="input-radios">
+      <label>
+        {{view Ember.RadioButton name="goalType" selectionBinding=view.isSelected value="1"}}
+        Hours
+      </label>
+
+      <label>
+        {{view Ember.RadioButton name="goalType" selectionBinding=view.isSelected value="0"}}
+        Workouts
+      </label>
+    </div>
+  </div>
+  </div>
+  {{#if view.hoursGoal}}
+    <div id="goal-hours" class="input">
+      <div class="input-elements">
+        Goal Hours
+        {{input placeholder="24.5" class="required" value=hoursTotal}}
+      </div>
+      {{#if hoursTotalErrors}}
+        <ul id="hours-total-errors" class="input-errors">
+          {{#each error in hoursTotalErrors}}
+            <li class="error">{{error}}</li>
+          {{/each}}
+        </ul>
+      {{/if}}
+    </div>
+  {{else}}
+    <div id="goal-workouts" class="input">
+      <div class="input-elements">
+        Goal Workouts
+        {{input placeholder="15" class="required" value=workoutsTotal}}
+      </div>
+      {{#if workoutsTotalErrors}}
+        <ul id="workouts-total-errors" class="input-errors">
+          {{#each error in workoutsTotalErrors}}
+            <li class="error">{{error}}</li>
+          {{/each}}
+        </ul>
+      {{/if}}
+    </div>
+  {{/if}}
+  <div id="save-goal" class="input">
+    <button {{action "saveGoal"}}>Save Goal</button>
+  </div>
+</div>
