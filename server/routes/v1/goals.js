@@ -10,7 +10,7 @@ var Goals = {};
 var GoalsModel;
 var WorkoutsModel;
 
-function updateGoal(workout, goal) {
+function updateGoal(goal) {
   var deferred = new Deferred();
 
   // Update goal hours.
@@ -18,10 +18,10 @@ function updateGoal(workout, goal) {
     WorkoutsModel.aggregate(
       {
         $match: {
-          user: workout.get('user'),
+          user: goal.get('user'),
           date: {
-            $lte: goal.get('start'),
-            $gt: goal.get('end')
+            $gte: goal.get('start'),
+            $lt: goal.get('end')
           }
         }
       },
@@ -35,15 +35,32 @@ function updateGoal(workout, goal) {
           return;
         }
         else if (!res[0] || typeof res[0].hoursTotal === 'undefined') {
-          goal.set('hoursTotal', 0);
-          goal.save();
-          deferred.resolve();
+          goal.set('hoursProgress', 0);
+          goal.save(function (err) {
+            if (err) {
+              deferred.reject(err);
+              return;
+            }
+            deferred.resolve(goal);
+          });
           return;
         }
+
         // Convert duration seconds to hours.
-        goal.set('hoursTotal', (res[0].hoursTotal / 60 / 60));
-        goal.save();
-        deferred.resolve();
+        var hoursProgress = (res[0].hoursTotal / 60 / 60);
+        goal.set('hoursProgress', hoursProgress);
+
+        if (hoursProgress >= goal.get('hoursTotal')) {
+          goal.set('complete', true);
+        }
+
+        goal.save(function (err) {
+          if (err) {
+            deferred.reject(err);
+            return;
+          }
+          deferred.resolve(goal);
+        });
       }
     );
   }
@@ -51,10 +68,10 @@ function updateGoal(workout, goal) {
   else if (goal.get('workoutsTotal')) {
     WorkoutsModel.count(
       {
-        user: workout.get('user'),
+        user: goal.get('user'),
         date: {
-          $lte: goal.get('start'),
-          $gt: goal.get('end')
+          $gte: goal.get('start'),
+          $lt: goal.get('end')
         }
       },
       function (err, count) {
@@ -63,9 +80,19 @@ function updateGoal(workout, goal) {
           deferred.reject(err);
           return;
         }
-        goal.set('workoutsTotal', count);
-        goal.save();
-        deferred.resolve();
+        goal.set('workoutsProgress', count);
+
+        if (count >= goal.get('workoutsTotal')) {
+          goal.set('complete', true);
+        }
+
+        goal.save(function (err) {
+          if (err) {
+            deferred.reject(err);
+            return;
+          }
+          deferred.resolve(goal);
+        });
       }
     );
   }
@@ -74,7 +101,7 @@ function updateGoal(workout, goal) {
 }
 
 /**
- * REST index callback.
+ * REST list callback.
  */
 Goals.list = function (req, res) {
   var params = GoalsModel.schema.paths;
@@ -84,6 +111,19 @@ Goals.list = function (req, res) {
       query[param] = req.query[param];
     }
   }
+
+  // Additional acceptable parameters.
+  if (typeof req.query.endsAfter !== 'undefined') {
+    var end = moment(req.query.endsAfter);
+    if (end.isValid()) {
+      query.end = { $gt: end.toDate() };
+    }
+    else {
+      res.send(400);
+      return;
+    }
+  }
+
   Goals.findAll(query).then(
     function found(goals) {
       res.json({ goals: goals });
@@ -236,7 +276,7 @@ Goals.updateGoals = function (workout) {
       for (var i = 0; i < goals.length; i++) {
         goal = goals[i];
 
-        updates.push(updateGoal(workout, goal));
+        updates.push(updateGoal(goal));
 
       }
 
@@ -261,40 +301,57 @@ Goals.updateGoals = function (workout) {
  */
 Goals.save = function (goal, id) {
   var deferred = new Deferred();
+  var savePromise = new Deferred();
 
   if (typeof id === 'undefined') {
     GoalsModel.create(goal, function (err, goal) {
       if (err) {
-        deferred.reject(err);
+        savePromise.reject(err);
         return;
       }
 
-      deferred.resolve(goal.toObject());
+      savePromise.resolve(goal);
     });
   }
   else {
     GoalsModel.findOne({ _id: id }, function (err, goalDoc) {
       if (err) {
-        deferred.reject(err);
+        savePromise.reject(err);
         return;
       }
 
       if (!goalDoc) {
-        deferred.reject('Not found');
+        savePromise.reject('Not found');
         return;
       }
 
       goalDoc.set(goal);
       goalDoc.save(function (err, goal) {
         if (err) {
-          deferred.reject(err);
+          savePromise.reject(err);
           return;
         }
 
-        deferred.resolve(goal.toObject());
+        savePromise.resolve(goal);
       });
     });
   }
+
+  savePromise.promise.then(
+    function (goalDoc) {
+      updateGoal(goalDoc).then(
+        function (goal) {
+          deferred.resolve(goal.toObject());
+        },
+        function (err) {
+          deferred.reject(err);
+        }
+      );
+    },
+    function (err) {
+      deferred.reject(err);
+    }
+  );
 
   return deferred.promise;
 };

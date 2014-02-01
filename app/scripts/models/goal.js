@@ -2,6 +2,7 @@ Yava.Goal = DS.Model.extend({
   title: DS.attr('string'),
   start: DS.attr('date'),
   end: DS.attr('date'),
+  complete: DS.attr('boolean'),
   hoursTotal: DS.attr('number'),
   hoursProgress: DS.attr('number'),
   workoutsTotal: DS.attr('number'),
@@ -9,7 +10,7 @@ Yava.Goal = DS.Model.extend({
   user: DS.belongsTo('user'),
 
   /**
-   * Returns a decimal for progress.
+   * Returns a percent for progress.
    */
   percent: function () {
     var ret = 0;
@@ -20,8 +21,17 @@ Yava.Goal = DS.Model.extend({
       ret = this.get('workoutsProgress') / this.get('workoutsTotal');
     }
 
-    return Number(ret);
+    ret = Number(ret * 100);
+    if (ret > 100) {
+      ret = 100;
+    }
+
+    return ret;
   }.property('hoursTotal', 'hoursProgress', 'workoutsTotal', 'workoutsProgress'),
+
+  percentStyle: function () {
+    return 'width: ' + this.get('percent') + '%';
+  }.property('percent'),
 
   /**
    * Returns the total goal.
@@ -49,6 +59,13 @@ Yava.Goal = DS.Model.extend({
 
     return Number(ret);
   }.property('workoutsProgress', 'hoursProgress'),
+
+  unit: function () {
+    if (this.get('hoursTotal')) {
+      return 'hours';
+    }
+    return 'workouts';
+  }.property('hoursTotal'),
 
   /**
    * Returns a formatted time from the goal start.

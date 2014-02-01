@@ -256,14 +256,17 @@ Workout.save = function (workout, id) {
 Workout.remove = function (id) {
   var deferred = new Deferred();
 
-  WorkoutModel.remove({ _id: id }, function (err) {
+  WorkoutModel.remove({ _id: id }, function (err, workout) {
     if (err) {
       deferred.reject(err);
       return;
     }
 
     deferred.resolve();
-    // TODO - update Stats and Goals.
+    delete workout._id;
+    var workoutModel = new WorkoutModel(workout);
+    Stats.updateStats(workout.get('user'));
+    Goals.updateGoals(workout);
   });
 
   return deferred.promise;

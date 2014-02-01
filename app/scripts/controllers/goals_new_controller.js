@@ -105,31 +105,38 @@ Yava.GoalsNewController = Ember.ObjectController.extend({
 
   actions: {
     saveGoal: function () {
-      if (this.get('isValid')) {
+      var self = this;
+      if (self.get('isValid')) {
         var goal;
 
-        if (!this.get('id')) {
-          goal = this.store.createRecord('goal', {
-            title: this.get('title'),
-            start: moment(this.get('formattedStart')).toDate(),
-            end: moment(this.get('formattedEnd')).toDate(),
-            hoursTotal: this.get('hoursTotal'),
-            workoutsTotal: this.get('workoutsTotal'),
+        if (!self.get('id')) {
+          goal = self.store.createRecord('goal', {
+            title: self.get('title'),
+            start: moment(self.get('formattedStart')).toDate(),
+            end: moment(self.get('formattedEnd')).toDate(),
+            hoursTotal: self.get('hoursTotal'),
+            workoutsTotal: self.get('workoutsTotal'),
             user: Yava.MyUser.get('user')
           });
         }
         else {
-          goal = this.get('model');
-          goal.set('title', this.get('title'));
-          goal.set('start', moment(this.get('formattedStart')).toDate());
-          goal.set('end', moment(this.get('formattedEnd')).toDate());
-          goal.set('hoursTotal', this.get('hoursTotal'));
-          goal.set('workoutsTotal', this.get('workoutsTotal'));
+          goal = self.get('model');
+          goal.set('title', self.get('title'));
+          goal.set('start', moment(self.get('formattedStart')).toDate());
+          goal.set('end', moment(self.get('formattedEnd')).toDate());
+          goal.set('hoursTotal', self.get('hoursTotal'));
+          goal.set('workoutsTotal', self.get('workoutsTotal'));
         }
 
-        goal.save();
-
-        this.transitionToRoute('goals');
+        // TODO - indicate progress...
+        goal.save().then(
+          function () {
+            self.transitionToRoute('goals');
+          },
+          function () {
+            // TODO - alert the error.
+          }
+        );
       }
     }
   }

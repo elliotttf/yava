@@ -13,6 +13,12 @@ $link-color: $palette-mid-blue;
 $link-visited-color: $link-color;
 $h1-color: $palette-dark-blue;
 
+// Progress bar colors
+$pb-bg-color: $palette-gray;
+$pb-fg-color: $palette-light-blue;
+$pb-fg-box-start-color: rgba(255,255,255,0.3);
+$pb-fg-box-end-color: rgba(0,0,0,0.4);
+
 // About colors.
 $small-about-color: #FFF;
 

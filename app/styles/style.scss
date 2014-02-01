@@ -7,6 +7,7 @@ $legacy-support-for-ie6: false;
 $legacy-support-for-ie7: false;
 $legacy-support-for-ie8: false;
 $legacy-support-for-mozilla: false;
+@import 'compass';
 @import 'normalize';
 @import 'singularitygs';
 @import 'breakpoint';
@@ -27,6 +28,7 @@ $legacy-support-for-mozilla: false;
 @import 'extendables/lists';
 @import 'extendables/nav';
 
+@import 'components/components';
 @import 'components/app';
 @import 'components/about';
 @import 'components/forms';
