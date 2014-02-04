@@ -1,5 +1,5 @@
 /**
- * GET workouts list.
+ * Workouts routes and API.
  */
 
 var Deferred = require('promised-io/promise').Deferred;
@@ -7,6 +7,7 @@ var Deferred = require('promised-io/promise').Deferred;
 var Workout = {};
 var WorkoutModel;
 var Stats;
+var Goals;
 
 /**
  * REST index callback.
@@ -19,16 +20,15 @@ Workout.list = function (req, res) {
       query[param] = req.query[param];
     }
   }
-  Workout.findAll(query)
-    .then(
-      function found(workouts) {
-        res.json({ workouts: workouts });
-      },
-      function error(err) {
-        console.log(err);
-        res.send(500);
-      }
-    );
+  Workout.findAll(query).then(
+    function found(workouts) {
+      res.json({ workouts: workouts });
+    },
+    function error(err) {
+      console.log(err);
+      res.send(500);
+    }
+  );
 };
 
 /**
@@ -40,18 +40,17 @@ Workout.retrieve = function (req, res) {
     return;
   }
 
-  Workout.findOne(req.params.workout_id)
-    .then(
-      function found(workout) {
-        res.json({
-          workout: workout
-        });
-      },
-      function error(err) {
-        console.log(err);
-        res.send(500);
-      }
-    );
+  Workout.findOne(req.params.workout_id).then(
+    function found(workout) {
+      res.json({
+        workout: workout
+      });
+    },
+    function error(err) {
+      console.log(err);
+      res.send(500);
+    }
+  );
 };
 
 /**
@@ -63,16 +62,15 @@ Workout.create = function (req, res) {
     return;
   }
 
-  Workout.save(req.body.workout)
-    .then(
-      function saved(savedWorkout) {
-        res.json({ workout: savedWorkout });
-      },
-      function error(err) {
-        console.log(error);
-        res.send(500);
-      }
-    );
+  Workout.save(req.body.workout).then(
+    function saved(savedWorkout) {
+      res.json({ workout: savedWorkout });
+    },
+    function error(err) {
+      console.log(error);
+      res.send(500);
+    }
+  );
 };
 
 /**
@@ -84,17 +82,16 @@ Workout.update = function (req, res) {
     return;
   }
 
-  Workout.save(req.body.workout, req.params.workout_id)
-    .then(
-      function saved(savedWorkout) {
-        res.json({ workout: savedWorkout });
-      },
-      function error(err) {
-        console.log(error);
-        res.send(500);
-        return;
-      }
-    );
+  Workout.save(req.body.workout, req.params.workout_id).then(
+    function saved(savedWorkout) {
+      res.json({ workout: savedWorkout });
+    },
+    function error(err) {
+      console.log(error);
+      res.send(500);
+      return;
+    }
+  );
 };
 
 /**
@@ -106,17 +103,16 @@ Workout.delete = function (req, res) {
     return;
   }
 
-  Workout.remove(req.params.workout_id)
-    .then(
-      function () {
-        res.send(204);
-      },
-      function (err) {
-        console.log(err);
-        res.send(500);
-        return;
-      }
-    );
+  Workout.remove(req.params.workout_id).then(
+    function () {
+      res.send(204);
+    },
+    function (err) {
+      console.log(err);
+      res.send(500);
+      return;
+    }
+  );
 };
 
 /**
@@ -180,7 +176,7 @@ Workout.findAll = function (query) {
 };
 
 /**
- * Internal PI function to select a single workout by id.
+ * Internal API function to select a single workout by id.
  *
  * @param {string} id
  *   The workout's ID.
@@ -216,7 +212,8 @@ Workout.save = function (workout, id) {
       }
 
       deferred.resolve(workout.toObject());
-      Stats.update(workout.get('user'));
+      Stats.updateStats(workout.get('user'));
+      Goals.updateGoals(workout);
     });
   }
   else {
@@ -239,7 +236,8 @@ Workout.save = function (workout, id) {
         }
 
         deferred.resolve(workout.toObject());
-        Stats.update(workout.get('user'));
+        Stats.updateStats(workout.get('user'));
+        Goals.updateGoals(workout);
       });
     });
   }
@@ -258,21 +256,25 @@ Workout.save = function (workout, id) {
 Workout.remove = function (id) {
   var deferred = new Deferred();
 
-  WorkoutModel.remove({ _id: id }, function (err) {
+  WorkoutModel.remove({ _id: id }, function (err, workout) {
     if (err) {
       deferred.reject(err);
       return;
     }
 
     deferred.resolve();
-    // TODO - update Stats.
+    delete workout._id;
+    var workoutModel = new WorkoutModel(workout);
+    Stats.updateStats(workout.get('user'));
+    Goals.updateGoals(workout);
   });
 
   return deferred.promise;
 };
 
-module.exports = function (workoutModel, stats) {
+module.exports = function (workoutModel, stats, goals) {
   WorkoutModel = workoutModel;
+  Goals = goals;
   Stats = stats;
   return Workout;
 };

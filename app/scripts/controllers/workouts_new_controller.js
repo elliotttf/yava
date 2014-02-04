@@ -13,7 +13,7 @@ Yava.WorkoutsNewController = Ember.ObjectController.extend({
    * Helper function to return an example date.
    */
   datePlaceholder: function () {
-    return moment().format('LL');
+    return moment().format('D MMMM YYYY');
   }.property('date'),
 
   /**
@@ -164,7 +164,7 @@ Yava.WorkoutsNewController = Ember.ObjectController.extend({
         if (!this.get('id')) {
           workout = this.store.createRecord('workout', {
             title: this.get('title'),
-            date: new Date(startDate.toISOString()),
+            date: startDate.toDate(),
             duration: (endDate.unix() - startDate.unix()),
             notes: this.get('notes'),
             user: Yava.MyUser.get('user')
@@ -173,7 +173,7 @@ Yava.WorkoutsNewController = Ember.ObjectController.extend({
         else {
           workout = this.get('model');
           workout.set('title', this.get('title'));
-          workout.set('date', new Date(startDate.toISOString()));
+          workout.set('date', startDate.toDate());
           workout.set('duration', (endDate.unix() - startDate.unix()));
           workout.set('notes', this.get('notes'));
         }

@@ -1,3 +1,7 @@
+/**
+ * Stats routes and API.
+ */
+
 var Deferred = require('promised-io/promise').Deferred;
 var Promise = require('promised-io/promise');
 var moment = require('moment');
@@ -154,7 +158,7 @@ Stats.findOne = function (id) {
       !stat.monthExpires || stat.monthExpires < now ||
       !stat.yearExpires || stat.yearExpires < now
     ) {
-      Stats.update(stat.user).then(
+      Stats.updateStats(stat.user).then(
         function (updatedStat) {
           deferred.resolve(updatedStat);
         },
@@ -201,18 +205,20 @@ Stats.createNew = function (user_id) {
  *
  * @return promise.
  */
-Stats.update = function (user_id) {
+Stats.updateStats = function (user_id) {
   var deferred = new Deferred();
   var updates = [];
 
   StatsModel.findOne({ user: user_id }, function (err, stat) {
     if (err) {
       console.log(err);
+      deferred.reject(err);
       return;
     }
 
     if (!stat) {
       console.log('Stats not found for ' + user_id);
+      deferred.resolve();
       return;
     }
 

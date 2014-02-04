@@ -10,9 +10,10 @@ var config = require(path.join(__dirname, '..', '..', 'config', 'config'))[app.g
 
 var models = require(path.join(__dirname, '..', '..', 'models', 'v1'))(config);
 
+var goals = require(path.join(__dirname, 'goals'))(models.Goal, models.Workout);
 var stats = require(path.join(__dirname, 'stats'))(models.Stat, models.Workout);
 var users = require(path.join(__dirname, 'users'))(models.User);
-var workouts = require(path.join(__dirname, 'workouts'))(models.Workout, stats);
+var workouts = require(path.join(__dirname, 'workouts'))(models.Workout, stats, goals);
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -141,14 +142,19 @@ function ensureOwner(req, res, next) {
   }
 }
 
+app.get('/goals', ensureAuthenticated, goals.list);
+app.post('/goals', ensureAuthenticated, goals.create);
+app.get('/goals/:goal_id', ensureAuthenticated, goals.retrieve);
+app.delete('/goals/:goal_id', ensureAuthenticated, goals.delete);
+
 app.get('/stats/:stat_id', ensureAuthenticated, stats.retrieve);
 
 app.get('/users', ensureAuthenticated, users.list);
 app.get('/users/:user_id', ensureAuthenticated, users.retrieve);
 
 app.get('/workouts', ensureAuthenticated, workouts.list);
-app.post('/workouts', ensureAuthenticated, workouts.create, stats.update);
+app.post( '/workouts', ensureAuthenticated, workouts.create);
 app.get('/workouts/:workout_id', ensureAuthenticated, workouts.retrieve);
-app.put('/workouts/:workout_id', ensureAuthenticated, ensureOwner, workouts.update, stats.update);
-app.delete('/workouts/:workout_id', ensureAuthenticated, ensureOwner, workouts.delete, stats.update);
+app.put('/workouts/:workout_id', ensureAuthenticated, ensureOwner, workouts.update);
+app.delete('/workouts/:workout_id', ensureAuthenticated, ensureOwner, workouts.delete);
 
