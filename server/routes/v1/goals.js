@@ -106,17 +106,38 @@ function updateGoal(goal) {
 Goals.list = function (req, res) {
   var params = GoalsModel.schema.paths;
   var query = {};
+  var end;
   for (var param in params) {
     if (params.hasOwnProperty(param) && typeof req.query[param] !== 'undefined') {
       query[param] = req.query[param];
+
+      if (param === 'complete') {
+        if (query[param] === 'true') {
+          query[param] = true;
+        }
+        else {
+          query[param] = false;
+        }
+      }
     }
   }
 
   // Additional acceptable parameters.
   if (typeof req.query.endsAfter !== 'undefined') {
-    var end = moment(req.query.endsAfter);
+    end = moment(req.query.endsAfter);
     if (end.isValid()) {
-      query.end = { $gt: end.toDate() };
+      query.end = { $gte: end.toDate() };
+    }
+    else {
+      res.send(400);
+      return;
+    }
+  }
+
+  if (typeof req.query.endsBefore !== 'undefined') {
+    end = moment(req.query.endsBefore);
+    if (end.isValid()) {
+      query.end = { $lt: end.toDate() };
     }
     else {
       res.send(400);
@@ -129,6 +150,26 @@ Goals.list = function (req, res) {
       res.json({ goals: goals });
     },
     function error(err) {
+      console.log(err);
+      res.send(500);
+    }
+  );
+};
+
+/**
+ * REST callback for creating a goal.
+ */
+Goals.create = function (req, res) {
+  if (!req.body.goal) {
+    res.send(400);
+    return;
+  }
+
+  Goals.save(req.body.goal).then(
+    function (goal) {
+      res.json({ goal: goal });
+    },
+    function (err) {
       console.log(err);
       res.send(500);
     }
@@ -160,17 +201,17 @@ Goals.retrieve = function (req, res) {
 };
 
 /**
- * REST callback for creating a goal.
+ * REST callback for deleteing a goal.
  */
-Goals.create = function (req, res) {
-  if (!req.body.goal) {
+Goals.delete = function (req, res) {
+  if (!req.params.goal_id) {
     res.send(400);
     return;
   }
 
-  Goals.save(req.body.goal).then(
-    function (goal) {
-      res.json({ goal: goal });
+  Goals.remove(req.params.goal_id).then(
+    function () {
+      res.send(204);
     },
     function (err) {
       console.log(err);
@@ -352,6 +393,28 @@ Goals.save = function (goal, id) {
       deferred.reject(err);
     }
   );
+
+  return deferred.promise;
+};
+
+/**
+ * Internal API callback for removing a goal.
+ *
+ * @param {string} id
+ *   The goal ID to remove.
+ *
+ * @return promise
+ */
+Goals.remove = function (id) {
+  var deferred = new Deferred();
+
+  GoalsModel.remove({ _id: id }, function (err) {
+    if (err) {
+      deferred.reject(err);
+      return;
+    }
+    deferred.resolve();
+  });
 
   return deferred.promise;
 };

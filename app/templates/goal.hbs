@@ -1,9 +1,9 @@
+<nav id="goal-controls">
+  <ul>
+    <li>{{#linkTo 'goal' id}}View{{/linkTo}}
+    <li>{{#linkTo 'goal.delete' id class="last"}}Delete{{/linkTo}}
+  </ul>
+</nav>
 <div id="goal" class="inner">
-  <h3>{{title}}</h3>
-  {{progress-bar progressStyle=percentStyle}}
-  <div class="goal-start">Start: {{formattedStart}}</div>
-  <div class="goal-end">End: {{formattedEnd}}</div>
-  <div class="goal-progress">
-    {{progress}}/{{total}} {{unit}}
-  </div>
+  {{outlet}}
 </div>

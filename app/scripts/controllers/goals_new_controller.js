@@ -131,6 +131,7 @@ Yava.GoalsNewController = Ember.ObjectController.extend({
         // TODO - indicate progress...
         goal.save().then(
           function () {
+            self.get('model').reset();
             self.transitionToRoute('goals');
           },
           function () {

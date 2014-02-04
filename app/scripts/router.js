@@ -3,7 +3,14 @@ Yava.Router.map(function () {
   this.resource('goals', function () {
     this.route('new');
 
-    this.resource('goal', { path: '/:goal_id' });
+    this.resource('past', function () {
+      this.route('attempted');
+      this.route('completed');
+    });
+
+    this.resource('goal', { path: '/:goal_id' }, function () {
+      this.route('delete');
+    });
   });
 
   // User routes.

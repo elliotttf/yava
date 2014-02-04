@@ -145,6 +145,7 @@ function ensureOwner(req, res, next) {
 app.get('/goals', ensureAuthenticated, goals.list);
 app.post('/goals', ensureAuthenticated, goals.create);
 app.get('/goals/:goal_id', ensureAuthenticated, goals.retrieve);
+app.delete('/goals/:goal_id', ensureAuthenticated, goals.delete);
 
 app.get('/stats/:stat_id', ensureAuthenticated, stats.retrieve);
 
