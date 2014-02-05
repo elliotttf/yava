@@ -6,7 +6,8 @@ Config.development = {
     key: 'nM1Qme7AjcvXrHDrtjzDkg',
     secret: 'AVqHxDxlLij64OteIsTrWiF9OLftKrBygpp8b0G5SU',
     callback: 'http://localhost:9001/v1/auth/twitter/callback'
-  }
+  },
+  pageLimit: 5
 };
 
 Config.production = {
@@ -15,5 +16,6 @@ Config.production = {
     key: 'jmds7SI27wEHyLZ9Meabhg',
     secret: 'IQwhJsia509yVzD91TjM71v6QuKqCr8dFST4Mm932E',
     callback: 'http://www.yava.co/v1/auth/twitter/callback'
-  }
+  },
+  pageLimit: 20
 };

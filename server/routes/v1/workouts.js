@@ -3,11 +3,13 @@
  */
 
 var Deferred = require('promised-io/promise').Deferred;
+var path = require('path');
 
 var Workout = {};
 var WorkoutModel;
 var Stats;
 var Goals;
+var config;
 
 /**
  * REST index callback.
@@ -15,12 +17,16 @@ var Goals;
 Workout.list = function (req, res) {
   var params = WorkoutModel.schema.paths;
   var query = {};
+  var page;
   for (var param in params) {
     if (params.hasOwnProperty(param) && typeof req.query[param] !== 'undefined') {
       query[param] = req.query[param];
     }
   }
-  Workout.findAll(query).then(
+  if (typeof req.query.page !== 'undefined') {
+    page = req.query.page;
+  }
+  Workout.findAll(query, page).then(
     function found(workouts) {
       res.json({ workouts: workouts });
     },
@@ -148,29 +154,31 @@ Workout.isOwner = function (accountId, workoutId) {
  *
  * @return promise
  */
-Workout.findAll = function (query) {
+Workout.findAll = function (query, page) {
   if (typeof query === 'undefined') {
     query = {};
   }
 
   var deferred = new Deferred();
 
-  WorkoutModel.find(
-    query,
-    {},
-    {
-      sort: {
-        date: -1
-      }
-    },
-    function (err, workouts) {
-    if (err) {
-      deferred.reject(err);
-      return;
-    }
+  var skip = 0;
+  if (page) {
+    skip = config.pageLimit * page;
+  }
 
-    deferred.resolve(workouts);
-  });
+  WorkoutModel
+    .find(query)
+    .sort({ date: -1 })
+    .skip(skip)
+    .limit(config.pageLimit)
+    .exec(function (err, workouts) {
+      if (err) {
+        deferred.reject(err);
+        return;
+      }
+
+      deferred.resolve(workouts);
+    });
 
   return deferred.promise;
 };
@@ -272,10 +280,11 @@ Workout.remove = function (id) {
   return deferred.promise;
 };
 
-module.exports = function (workoutModel, stats, goals) {
+module.exports = function (workoutModel, stats, goals, cfg) {
   WorkoutModel = workoutModel;
   Goals = goals;
   Stats = stats;
+  config = cfg;
   return Workout;
 };
 

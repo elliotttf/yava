@@ -13,7 +13,7 @@ var models = require(path.join(__dirname, '..', '..', 'models', 'v1'))(config);
 var goals = require(path.join(__dirname, 'goals'))(models.Goal, models.Workout);
 var stats = require(path.join(__dirname, 'stats'))(models.Stat, models.Workout);
 var users = require(path.join(__dirname, 'users'))(models.User);
-var workouts = require(path.join(__dirname, 'workouts'))(models.Workout, stats, goals);
+var workouts = require(path.join(__dirname, 'workouts'))(models.Workout, stats, goals, config);
 
 app.use(passport.initialize());
 app.use(passport.session());
