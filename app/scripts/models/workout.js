@@ -4,6 +4,7 @@ Yava.Workout = DS.Model.extend({
   duration: DS.attr('number'),
   notes: DS.attr('string'),
   user: DS.belongsTo('user'),
+  venue: DS.belongsTo('venue'),
 
   /**
    * Returns a formatted time from the duration seconds.

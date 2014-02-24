@@ -52,7 +52,12 @@
     {{/if}}
   </div>
   <div id="loc" class="input">
-    <button {{action 'openModal' 'addLocation'}}>Add location</button>
+    {{#if venue}}
+      {{venue.name}}
+      <button {{action 'openModal' 'AddLocation' model}}>Change location</button>
+    {{else}}
+      <button {{action 'openModal' 'AddLocation' model}}>Add location</button>
+    {{/if}}
   </div>
   <div id="notes" class="input">
     <div class="input-elements">

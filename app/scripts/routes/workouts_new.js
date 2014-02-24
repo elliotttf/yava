@@ -4,6 +4,9 @@ Yava.WorkoutsNewRoute = Ember.Route.extend({
       this.transitionTo('login');
     }
   },
+  model: function () {
+    return this.store.createRecord('workout');
+  },
   setupController: function (controller, model) {
     controller.set('model', {});
   }

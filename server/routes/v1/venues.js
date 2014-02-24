@@ -30,7 +30,7 @@ Venues.find = function (req, res) {
       });
     }
 
-    res.json(venue_res);
+    res.json({ venues: venue_res });
   });
 };
 

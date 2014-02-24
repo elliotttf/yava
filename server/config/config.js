@@ -1,7 +1,7 @@
 var Config = exports;
 
 Config.development = {
-  db: 'mongodb://test:test@local.dev/my-yoga',
+  db: 'mongodb://test:test@local.dev/yava',
   twitter: {
     key: 'nM1Qme7AjcvXrHDrtjzDkg',
     secret: 'AVqHxDxlLij64OteIsTrWiF9OLftKrBygpp8b0G5SU',

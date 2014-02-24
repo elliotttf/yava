@@ -1,0 +1,13 @@
+{{#modal-dialog action="close"}}
+  {{#if studios}}
+    <ul id="studios">
+    {{#each studio in studios}}
+      <li {{action select studio.id}}>
+        <div>{{studio.name}}</div>
+      </li>
+    {{/each}}
+    </ul>
+  {{else}}
+    <span class="working">Locating you...</span>
+  {{/if}}
+{{/modal-dialog}}
