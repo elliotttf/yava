@@ -38,10 +38,10 @@ Yava.AddLocationController = Yava.ModalController.extend({
   actions: {
     select: function (studioId) {
       this.store.find('venue', studioId)
-        .then(function (venue) {
+        .then($.proxy(function (venue) {
           this.set('venue', venue);
           this.send('closeModal');
-        });
+        }, this));
     }
   }
 });

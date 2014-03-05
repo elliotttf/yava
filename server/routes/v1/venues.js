@@ -1,7 +1,11 @@
+var Deferred = require('promised-io/promise').Deferred;
 var Venues = {};
 var foursquare;
 
-Venues.find = function (req, res) {
+/**
+ * REST list endpoint.
+ */
+Venues.list = function (req, res) {
   var params = {
     ll: req.query.ll,
     query: 'yoga',
@@ -13,9 +17,51 @@ Venues.find = function (req, res) {
     params.query = req.query.q;
   }
 
-  foursquare.getVenues(params, function (err, venues) {
+  Venues.findAll(params)
+    .then(
+      function (venues) {
+        res.json({ venues: venues });
+      },
+      function (err) {
+        console.error(err);
+        res.send(500);
+      }
+    );
+};
+
+/**
+ * REST retrieve endpoint.
+ */
+Venues.retrieve = function (req, res) {
+  if (!req.params.venue_id) {
+    res.send(400);
+    return;
+  }
+
+  Venues.findOne(req.params.venue_id)
+    .then(
+      function (venue) {
+        res.json({ venue: venue });
+      },
+      function (err) {
+        console.log(err);
+        res.send(500);
+      }
+    );
+};
+
+/**
+ * Find all venues by query.
+ *
+ * @param {object} query
+ *   The query parameters to use to select venues.
+ */
+Venues.findAll = function (query) {
+  var deferred = new Deferred();
+
+  foursquare.getVenues(query, function (err, venues) {
     if (err || venues.meta.code !== 200) {
-      res.send(500);
+      deferred.reject(err);
       return;
     }
 
@@ -30,8 +76,38 @@ Venues.find = function (req, res) {
       });
     }
 
-    res.json({ venues: venue_res });
+    deferred.resolve(venue_res);
   });
+
+  return deferred.promise;
+};
+
+/**
+ * Finds a single venue.
+ *
+ * @param {string} id
+ *   The venue ID to find.
+ *
+ * @return promise.
+ */
+Venues.findOne = function (id) {
+  var deferred = new Deferred();
+
+  foursquare.getVenue({ venue_id: id }, function (err, venue) {
+    if (err) {
+      deferred.reject(err);
+      return;
+    }
+
+    var venue_res = {
+      _id: venue.response.venue.id,
+      name: venue.response.venue.name,
+      location: venue.response.venue.location
+    };
+    deferred.resolve(venue_res);
+  });
+
+  return deferred.promise;
 };
 
 module.exports = function (config) {

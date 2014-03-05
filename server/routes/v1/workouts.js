@@ -9,6 +9,7 @@ var Workout = {};
 var WorkoutModel;
 var Stats;
 var Goals;
+var Venues;
 var config;
 
 /**
@@ -212,6 +213,14 @@ Workout.findOne = function (id) {
 Workout.save = function (workout, id) {
   var deferred = new Deferred();
 
+  if (typeof workout.venue) {
+    Venues.findOne(workout.venue)
+      .then(
+        function (venue) {
+        }
+      );
+  }
+
   if (typeof id === 'undefined') {
     WorkoutModel.create(workout, function (err, workout) {
       if (err) {
@@ -280,10 +289,11 @@ Workout.remove = function (id) {
   return deferred.promise;
 };
 
-module.exports = function (workoutModel, stats, goals, cfg) {
+module.exports = function (workoutModel, stats, goals, venues, cfg) {
   WorkoutModel = workoutModel;
   Goals = goals;
   Stats = stats;
+  Venues = venues;
   config = cfg;
   return Workout;
 };

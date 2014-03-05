@@ -12,6 +12,10 @@ var WorkoutSchema = module.exports = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     index: true
+  },
+  venue: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Venue'
   }
 });
 
