@@ -167,7 +167,8 @@ Yava.WorkoutsNewController = Ember.ObjectController.extend({
             date: startDate.toDate(),
             duration: (endDate.unix() - startDate.unix()),
             notes: this.get('notes'),
-            user: Yava.MyUser.get('user')
+            user: Yava.MyUser.get('user'),
+            venue: this.get('venue')
           });
         }
         else {
@@ -176,6 +177,7 @@ Yava.WorkoutsNewController = Ember.ObjectController.extend({
           workout.set('date', startDate.toDate());
           workout.set('duration', (endDate.unix() - startDate.unix()));
           workout.set('notes', this.get('notes'));
+          workout.set('venue', this.get('venue'));
         }
 
         workout.save();

@@ -1,3 +1,4 @@
+/* global $ */
 require('scripts/controllers/modal_controller');
 
 Yava.AddLocationController = Yava.ModalController.extend({

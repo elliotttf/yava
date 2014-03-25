@@ -93,6 +93,7 @@ Venues.findAll = function (query) {
 Venues.findOne = function (id) {
   var deferred = new Deferred();
 
+  // TODO - there's a problem here on new workout saves :(
   foursquare.getVenue({ venue_id: id }, function (err, venue) {
     if (err) {
       deferred.reject(err);
