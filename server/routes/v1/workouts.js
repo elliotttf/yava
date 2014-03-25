@@ -213,14 +213,6 @@ Workout.findOne = function (id) {
 Workout.save = function (workout, id) {
   var deferred = new Deferred();
 
-  if (typeof workout.venue) {
-    Venues.findOne(workout.venue)
-      .then(
-        function (venue) {
-        }
-      );
-  }
-
   if (typeof id === 'undefined') {
     WorkoutModel.create(workout, function (err, workout) {
       if (err) {
