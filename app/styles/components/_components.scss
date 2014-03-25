@@ -36,3 +36,70 @@
   margin: 1em auto;
 }
 
+// Modals.
+// @see date picker styles, most of this was lifted from there
+// for simple consistency.
+.overlay {
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  top: 0;
+  // TODO: top: 100%;
+  left: 0;
+  zoom: 1;
+  background-color: rgba(0, 0, 0, 0.32);
+  @include transition(background 0.15s ease-out);
+
+  // TODO
+  &.opened {
+    top: 0;
+  }
+
+  .modal-wrapper {
+    position: absolute;
+    margin: 0 auto;
+    margin-bottom: 7.5%;
+    top: auto;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    min-width: 256px;
+    max-width: 320px;
+    max-height: 80%;
+    opacity: 1;
+  }
+
+  .modal-box {
+    background-color: $modal-background-color;
+  }
+
+  .modal {
+    @include border-radius(5px);
+    @include box-shadow(0 12px 36px 16px rgba(0, 0, 0, 0.24));
+
+    ul {
+      list-style: none;
+      padding: 0.75em 0 4.2em;
+      margin: 0;
+
+      li {
+        padding: 0.5em 1em;
+        border-bottom: 1px solid $modal-list-border-color;
+        border-top: 1px solid $modal-list-border-color;
+        background-color: $modal-list-background-color;
+        margin-bottom: -1px;
+
+        &:hover {
+          cursor: pointer;
+          color: $modal-list-hover-color;
+          background-color: $modal-list-hover-background-color;
+          border-color: $modal-list-hover-border-color;
+          z-index: 10;
+        }
+      }
+    }
+  }
+}
+

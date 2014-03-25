@@ -9,6 +9,7 @@ var Workout = {};
 var WorkoutModel;
 var Stats;
 var Goals;
+var Venues;
 var config;
 
 /**
@@ -280,10 +281,11 @@ Workout.remove = function (id) {
   return deferred.promise;
 };
 
-module.exports = function (workoutModel, stats, goals, cfg) {
+module.exports = function (workoutModel, stats, goals, venues, cfg) {
   WorkoutModel = workoutModel;
   Goals = goals;
   Stats = stats;
+  Venues = venues;
   config = cfg;
   return Workout;
 };

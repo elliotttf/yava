@@ -13,7 +13,14 @@ var models = require(path.join(__dirname, '..', '..', 'models', 'v1'))(config);
 var goals = require(path.join(__dirname, 'goals'))(models.Goal, models.Workout);
 var stats = require(path.join(__dirname, 'stats'))(models.Stat, models.Workout);
 var users = require(path.join(__dirname, 'users'))(models.User);
-var workouts = require(path.join(__dirname, 'workouts'))(models.Workout, stats, goals, config);
+var venues = require(path.join(__dirname, 'venues'))(config);
+var workouts = require(path.join(__dirname, 'workouts'))(
+  models.Workout,
+  stats,
+  goals,
+  venues,
+  config
+);
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -151,6 +158,9 @@ app.get('/stats/:stat_id', ensureAuthenticated, stats.retrieve);
 
 app.get('/users', ensureAuthenticated, users.list);
 app.get('/users/:user_id', ensureAuthenticated, users.retrieve);
+
+app.get('/venues', ensureAuthenticated, venues.list);
+app.get('/venues/:venue_id', ensureAuthenticated, venues.retrieve);
 
 app.get('/workouts', ensureAuthenticated, workouts.list);
 app.post( '/workouts', ensureAuthenticated, workouts.create);
