@@ -3,10 +3,6 @@
  * will be lost when the stylesheets are recompiled.
  */
 
-$legacy-support-for-ie6: false;
-$legacy-support-for-ie7: false;
-$legacy-support-for-ie8: false;
-$legacy-support-for-mozilla: false;
 @import 'compass';
 @import 'normalize';
 @import 'singularitygs';
