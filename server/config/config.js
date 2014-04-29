@@ -5,7 +5,7 @@ Config.development = {
   twitter: {
     key: 'nM1Qme7AjcvXrHDrtjzDkg',
     secret: 'AVqHxDxlLij64OteIsTrWiF9OLftKrBygpp8b0G5SU',
-    callback: 'http://localhost:9001/v1/auth/twitter/callback'
+    callback: 'http://yava.local.dev/v1/auth/twitter/callback'
   },
   foursquare: {
     key: 'BNG0VTDG1TFQEYGLUD3GLSCUWD3T5QKBXZLRR0SHMGYB4BRE',

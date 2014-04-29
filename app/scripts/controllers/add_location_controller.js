@@ -29,7 +29,8 @@ Yava.AddLocationController = Yava.ModalController.extend({
   },
 
   locError: function (err) {
-    // TODO - let the user know.
+    alertify.error('Unable to locate you, please try agian later.');
+    this.send('closeModal');
   },
 
   addVenues: function (venues) {
