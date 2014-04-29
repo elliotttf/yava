@@ -14,7 +14,7 @@ Yava.AddLocationController = Yava.ModalController.extend({
       $.proxy(this.locError, this),
       {
         enableHighAccuracy: true,
-        timeout: 2000
+        timeout: 10000 // TODO - lower this but also fix failed retry.
       }
     );
   },
