@@ -11,6 +11,11 @@ Yava.WorkoutView = Ember.View.extend({
 
   addMap: function () {
     var loc = this.get('controller.venue.location');
+
+    if (!loc) {
+      return;
+    }
+
     this.map = L.mapbox.map('map', 'elliotttf.hk2gaal7')
       .setView([ loc.lat, loc.lng ], 15);
 

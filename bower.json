@@ -2,6 +2,7 @@
   "name": "yava",
   "version": "0.0.0",
   "dependencies": {
+    "alertify": "~0.3.10",
     "ember": "1.0.0",
     "ember-data-shim": "1.0.0-beta.2",
     "moment": "~2.5.0",
